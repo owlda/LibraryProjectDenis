@@ -12,6 +12,7 @@ namespace LibraryProject.Views.Home
     {
 
         ApplicationDbContext _dbContextLivre;
+        private List<Livre> _list = new List<Livre>();
         public LivreController() {
 
             _dbContextLivre = new ApplicationDbContext();
@@ -24,24 +25,56 @@ namespace LibraryProject.Views.Home
 
         // GET: Livre
         [HttpGet]
-        [Authorize]
+        [AllowAnonymous]
         [Route("livre/show")]
         public ActionResult Show()
         {
-            if (User.IsInRole("AdminAccount"))
-            {
-                var userID = _dbContextLivre.Reservations.Count(c => c.IDUser == this.User.Identity.Name);
-                ViewBag.Total = _dbContextLivre.Reservations.Count(c => c.IDUser == this.User.Identity.Name);
-                var _listFromDBContext = _dbContextLivre.Livres.ToList();
-                return View(_listFromDBContext);
-            }
-            else
-            {
-                var userID = _dbContextLivre.Reservations.Count(c => c.IDUser == this.User.Identity.Name);
-                ViewBag.Total = _dbContextLivre.Reservations.Count(c => c.IDUser == this.User.Identity.Name);
-                var _listFromDBContext = _dbContextLivre.Livres.ToList();
-                return View("ShowForUser", _listFromDBContext);
-            }          
+            var _list = new List<Livre>();
+            var book1 = new Livre();
+            var book6 = new Livre();
+            var book2 = new Livre();
+            var book3 = new Livre();
+            var book4 = new Livre();
+            var book5 = new Livre();
+            book1.Id = 1;
+            book1.Name = "Design d'expérience utilisateur : principes et méthodes UX";
+            book1.Description = "Conception participative (Conception de systèmes) Interfaces utilisateurs (Informatique)";
+            book1.Category = "14+ (Jeunes)";
+            book1.Author = "Daumal, Sylvie";
+            book1.NumberAvalible = "Disponible";
+            book2.Id = 2;
+            book2.Name = "Design d'expérience utilisateur : principes et méthodes UX";
+            book2.Description = "Conception participative (Conception de systèmes) Interfaces utilisateurs (Informatique)";
+            book2.Category = "14+ (Jeunes)";
+            book2.Author = "Daumal, Sylvie";
+            book2.NumberAvalible = "Disponible";
+            book3.Id = 3;
+            book3.Name = "Design d'expérience utilisateur : principes et méthodes UX";
+            book3.Description = "Conception participative (Conception de systèmes) Interfaces utilisateurs (Informatique)";
+            book3.Category = "14+ (Jeunes)";
+            book3.Author = "Daumal, Sylvie";
+            book3.NumberAvalible = "Disponible";
+            book4.Id = 4;
+            book4.Name = "Design d'expérience utilisateur : principes et méthodes UX";
+            book4.Description = "Conception participative (Conception de systèmes) Interfaces utilisateurs (Informatique)";
+            book4.Category = "14+ (Jeunes)";
+            book4.Author = "Daumal, Sylvie";
+            book4.NumberAvalible = "Disponible";
+            book5.Id = 5;
+            book5.Name = "Design d'expérience utilisateur : principes et méthodes UX";
+            book5.Description = "Conception participative (Conception de systèmes) Interfaces utilisateurs (Informatique)";
+            book5.Category = "14+ (Jeunes)";
+            book5.Author = "Daumal, Sylvie";
+            book5.NumberAvalible = "Disponible";
+            book6.Id = 6;
+            book6.Name = "Design d'expérience utilisateur : principes et méthodes UX";
+            book6.Description = "Conception participative (Conception de systèmes) Interfaces utilisateurs (Informatique)";
+            book6.Category = "14+ (Jeunes)";
+            book6.Author = "Daumal, Sylvie";
+            book6.NumberAvalible = "Disponible";
+            _list.Add(book1); _list.Add(book2); _list.Add(book3); _list.Add(book4); _list.Add(book5); _list.Add(book6);
+            return View("ShowForUser", _list);
+                    
         }
         // GET: Livre/Create
         [HttpGet]
@@ -129,18 +162,18 @@ namespace LibraryProject.Views.Home
         }
 
         [HttpGet]
-        [Authorize]
+        [AllowAnonymous]
         [Route("livre/details/{id:regex(\\d+)}")]
         public ActionResult ShowByID(int id)
         {
-            var details = _dbContextLivre.Livres.Single(c => c.Id == id);
+            var details = _list.Single(c => c.Id == id);
             if (details == null)
             {
                 return HttpNotFound();
             }
             else
             {
-                ViewBag.Total = _dbContextLivre.Reservations.Count(c => c.IDUser == this.User.Identity.Name);
+               
                 var viewModel = details;
                 return View(viewModel);
             }
